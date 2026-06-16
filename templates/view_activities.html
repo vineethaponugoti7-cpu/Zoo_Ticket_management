@@ -1,0 +1,16 @@
+<div class="container-fluid">
+    <div class="row">
+         <div class="col-md-3"></div>
+            <div class="col-md-6 mt-3">
+              <div class="card p-3 mt-3 text-center">
+                  <ol>
+                    {% for activity in activities %}
+                       <li class="mt-2">{{activity['activity_name']}}</li>
+                       <div class="col-md-3"></div>
+                    {% endfor %}
+                  </ol>
+              </div>
+            </div>
+        </div>
+  </div>
+</div>

@@ -1,0 +1,171 @@
+{% include "customer_head.html" %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script>
+    $(document).ready(function(){
+        var today = new Date().toISOString().slice(0, 16);
+        $("#booking_date").attr("min",today)
+    });
+
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+            <script>
+            $(document).ready(function(){
+              $("#no_of_adult_tickets").on("keyup",function(){
+                let no_of_adult_tickets = $("#no_of_adult_tickets").val();
+                let persons_html = '<div class="row">';
+                for(let i=1;i<=no_of_adult_tickets;i++){
+                    persons_html= persons_html +
+                   `<div class="col-md-4 me-2 mt-2 card" >
+                   <div class="m-1 p-2" style="border:1px solid #ccc">
+                   <div>Person ${i}</div>
+                    <div class="mt-3">
+                        <label> Name</label>
+                        <input type="text"  name="namea${i}" placeholder="Name" class="form-control" required>
+                    </div>
+                    <div class="mt-3">
+                        <label>Age</label>
+                        <input type="text" name="agea${i}" placeholder="Age" class="form-control" required>
+                    </div>
+                    </div>
+                    </div>
+                    `
+                }
+                 persons_html = persons_html + '</div>'
+                console.log(persons_html)
+                $("#persons").append(persons_html);
+
+                });
+                 $("#no_of_children_tickets").on("keyup",function(){
+                    let no_of_children_tickets = $("#no_of_children_tickets").val();
+                    let persons_html = '<div class="row">';
+                    for(let i=1;i<=no_of_children_tickets;i++){
+                    persons_html= persons_html +
+                   `<div class="col-md-4 mt-2 me-2 card" >
+                   <div class="m-1 p-2" style="border:1px solid #ccc">
+                   <div>Person ${i}</div>
+                    <div class="mt-3">
+                        <label> Name</label>
+                        <input type="text"  name="namec${i}" placeholder="Name" class="form-control" required>
+                    </div>
+                    <div class="mt-3">
+                        <label>Age</label>
+                        <input type="text" name="agec${i}" placeholder="Age" class="form-control" required>
+                    </div>
+                    </div>
+                    </div>
+                    `
+                }
+
+                persons_html = persons_html + '</div>'
+                console.log(persons_html)
+                $("#persons").append(persons_html);
+              });
+               $("#no_of_senior_citizen_tickets").on("keyup",function(){
+                    let no_of_senior_citizen_tickets = $("#no_of_senior_citizen_tickets").val();
+                    let persons_html = '<div class="row">';
+                    for(let i=1;i<=no_of_senior_citizen_tickets;i++){
+                    persons_html= persons_html +
+                   `<div class="col-md-4 mt-2 me-2 card" >
+                   <div class="m-1 p-2" style="border:1px solid #ccc">
+                   <div>Person ${i}</div>
+                    <div class="mt-3">
+                        <label> Name</label>
+                        <input type="text"  name="names${i}" placeholder="Name" class="form-control" required>
+                    </div>
+                    <div class="mt-3">
+                        <label>Age</label>
+                        <input type="text" name="ages${i}" placeholder="Age" class="form-control" required>
+                    </div>
+                    </div>
+                    </div>
+                    `
+                }
+
+                persons_html = persons_html + '</div>'
+                console.log(persons_html)
+                $("#persons").append(persons_html);
+              });
+              $("#no_of_handy_capped_tickets").on("keyup",function(){
+                    let no_of_handy_capped_tickets = $("#no_of_handy_capped_tickets").val();
+                    let persons_html = '<div class="row">';
+                    for(let i=1;i<=no_of_handy_capped_tickets;i++){
+                    persons_html= persons_html +
+                   `<div class="col-md-4 mt-2 me-2 card" >
+                   <div class="m-1 p-2" style="border:1px solid #ccc">
+                   <div>Person ${i}</div>
+                    <div class="mt-3">
+                        <label> Name</label>
+                        <input type="text"  name="nameh${i}" placeholder="Name" class="form-control" required>
+                    </div>
+                    <div class="mt-3">
+                        <label>Age</label>
+                        <input type="text" name="ageh${i}" placeholder="Age" class="form-control" required>
+                    </div>
+                    </div>
+                    </div>
+                    `
+                }
+
+                persons_html = persons_html + '</div>'
+                console.log(persons_html)
+                $("#persons").append(persons_html);
+              });
+            });
+ </script>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <div class="card mt-5 p-3">
+                <form action="book_entry_ticket1" method="post" onsubmit="return validate()">
+                    <input type="hidden" name="ticket_id" value="{{ticket_id}}">
+                    <input type="hidden" name="remaining_tickets" value="{{remaining_tickets}}">
+                    <div class="row mt-2">
+                        <div class="col-md-6 text-center h4 mt-3">Book Entry Ticket</div>
+                        <div class="col-md-3"></div>
+                        <div class="col-md-3 mt-3">
+                            <input type="datetime-local" name="booking_date" id="booking_date" class="form-control">
+                        </div>
+                         <div class="col-md-2 mt-3">
+                            <label for="no_of_adult_tickets" class="form-label">Adult Tickets</label>
+                            <input type="number" min="0" max="{{remaining_tickets}}" name="no_of_adult_tickets" id="no_of_adult_tickets" required placeholder="Enter Number" class="form-control">
+                         </div>
+                        <div class="col-md-2 mt-3">
+                            <label for="no_of_children_tickets" class="form-label">Children Tickets</label>
+                            <input type="number" min="0" max="{{remaining_tickets}}" name="no_of_children_tickets" id="no_of_children_tickets" required placeholder="Enter Number" class="form-control">
+                         </div>
+                        <div class="col-md-3 mt-3">
+                            <label for="no_of_senior_citizen_tickets" class="form-label">Senior Citizen Tickets</label>
+                            <input type="number"min="0" max="{{remaining_tickets}}" name="no_of_senior_citizen_tickets" id="no_of_senior_citizen_tickets" required placeholder="Enter Number" class="form-control">
+                         </div>
+                        <div class="col-md-3 mt-3">
+                            <label for="no_of_handy_capped_tickets" class="form-label">Handy Capped Tickets</label>
+                            <input type="number" min="0" max="{{remaining_tickets}}" name="no_of_handy_capped_tickets" id="no_of_handy_capped_tickets" required placeholder="Enter Number" class="form-control">
+                         </div>
+                        <div class="col-md-2 mt-4">
+                            <input type="submit" value="Book Entry Ticket" class="btn btn-success w-100" style="margin-top:18px">
+                        </div>
+                         <div class="mt-2" style="color:green">
+                             {% if message != None :%}
+                                {{message}}
+                             {% endif %}
+                          </div>
+                        <div class="col-md-6">
+                            <div class="p-3 mt-4">
+                                <div id="persons"></div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+

@@ -1,0 +1,154 @@
+{% if session['role'] == "Admin" :%}
+  {% include "admin_head.html" %}
+{% elif session['role'] == "Customer" :%}
+  {% include "customer_head.html" %}
+{% endif %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function(){
+       $("#ticket_form").hide();
+       $("#add_ticket_btn").on("click",()=>{
+            if($("#ticket_form").is(":visible")) {
+                $("#ticket_form").hide()
+            }else{
+                $("#ticket_form").show()
+                $("#add_ticket_btn").hide()
+            }
+       })
+       $("#ticket_form").is(":visible");
+       $("#ticket_title").on("change", function(){
+            let ticket_title = $("#ticket_title").val();
+            if(ticket_title==='Entry Ticket'){
+                $("#stall").hide()
+            }else{
+                $("#stall").show()
+            }
+        });
+    })
+
+</script>
+
+<div class="container">
+    <div class="row">
+        {% if session['role'] == "Admin" :%}
+        <div class="col-md-9"></div>
+        <div class="col-md-3 mt-2">
+            <input type="button" value="Add Tickets" class="btn btn-success w-100" id="add_ticket_btn">
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-8 mt-5">
+            <div class="card mt-3 p-3" id="ticket_form">
+                <form action="add_ticket1" method="post">
+                    <div class="row">
+                        <div class="col-md-6 mt-1">
+                        <label for="ticket_title" class="form-label">Ticket Title</label>
+                        <select name="ticket_title" id="ticket_title" required class="form-control">
+                            <option value="">Choose Ticket Title</option>
+                            <option value="Entry Ticket" id="entry_ticket">Entry Ticket</option>
+                            <option value="Stall Ticket" id="stall_ticket">Stall Ticket</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mt-1" id="stall">
+                        <label for="stall_id" class="form-label">Stall Name</label>
+                        <select name="stall_id" id="stall_id"  class="form-control">
+                            <option value="">Choose Stall Name</option>
+                             {% for stall in stalls: %}
+                                <option value="{{stall['_id']}}">{{stall['stall_name']}}</option>
+                             {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-6 mt-1">
+                        <label for="number_of_tickets" class="form-label">Number Of Tickets</label>
+                        <input type="number" min="1" id="number_of_tickets" name="number_of_tickets" required placeholder="Enter Number" class="form-control">
+                    </div>
+                        <div class="col-md-6 mt-1">
+                        <label for="first_name" class="form-label">First name</label>
+                        <input type="text" min="1" id="first_name" name="first_name" required placeholder="Enter first name" class="form-control">
+                    </div>
+                        <div class="col-md-6 mt-1">
+                        <label for="last_name" class="form-label">Last name</label>
+                        <input type="text" min="1" id="last_name" name="last_name" required placeholder="Enter last name" class="form-control">
+                    </div>
+                         <div class="col-md-6 mt-1">
+                            <label for="dob">Date of Birth:</label>
+                            <input type="date" min="1" name="dob" id="dob" placeholder="Enter Date of birth" class="form-control">
+                        </div>
+                    <div class="col-md-6 mt-1">
+                        <label for="price_for_adults" class="form-label">Price For Adults</label>
+                        <input type="number" min="1" id="price_for_adults" name="price_for_adults" required placeholder="Enter Price" class="form-control">
+                    </div>
+                    <div class="col-md-6 mt-1">
+                        <label for="price_for_children" class="form-label">Price For Children</label>
+                        <input type="number" min="1" id="price_for_children" name="price_for_children" required placeholder="Enter Price" class="form-control">
+                    </div>
+                    <div class="col-md-6 mt-1">
+                        <label for="price_for_senior_citizen" class="form-label">Price For Senior Citizen</label>
+                        <input type="number" min="1" id="price_for_senior_citizen" name="price_for_senior_citizen" required placeholder="Enter Price" class="form-control">
+                    </div>
+                    <div class="col-md-6 mt-1">
+                        <label for="price_for_handy_capped" class="form-label">Price For Handy Capped</label>
+                        <input type="number" min="1" id="price_for_handy_capped" name="price_for_handy_capped" required placeholder="Enter Price" class="form-control">
+                    </div>
+                        <div class="col-md-6 mt-4">
+                            <input type="submit" value="Add Tickets" class="btn btn-primary w-100" style="margin-top:10px">
+                        </div>
+                    </div>
+                    <div class="mt-2" style="color:green">
+                         {% if message != None :%}
+                            {{message}}
+                         {% endif %}
+                      </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+        {% endif %}
+        {% for ticket in tickets: %}
+        {% set available_tickets = available_tickets(ticket['_id'])%}
+         <div class="col-md-4 mt-5">
+             <div class="card mt-3 p-3">
+                 <div class="row">
+                     {% if ticket['ticket_title'] == "Entry Ticket":%}
+                         <div class="col-md-5 text-muted mt-1">Ticket Title : </div>
+                         <div class="col-md-7 mt-1"><b>{{ticket['ticket_title']}}</b></div>
+                     {% elif ticket['ticket_title'] == "Stall Ticket":%}
+                        {% set stall = get_stall_id(ticket['stall_id'])%}
+                         <div class="col-md-5 text-muted mt-1">Ticket Title : </div>
+                     <div class="col-md-7 mt-1"><b>{{ticket['ticket_title']}} <span class="stall_name">[ {{stall['stall_name']}} ]</span></b></div>
+                     {% endif %}
+                     <div class="col-md-7 text-muted mt-1">Customer Name : </div>
+                     <div class="col-md-5 mt-1"><b>{{ticket['first_name']}} {{ticket['last_name']}}</b></div>
+                      <div class="col-md-7 text-muted mt-1">Number Of Tickets : </div>
+                     <div class="col-md-5 mt-1"><b>{{ticket['number_of_tickets']}} Tickets</b></div>
+                     <div class="col-md-7 text-muted mt-1">Available Tickets : </div>
+                     <div class="col-md-5 mt-1"><b>{{available_tickets}} Tickets</b></div>
+                      <div class="col-md-7 text-muted mt-1">Price For Adult : </div>
+                     <div class="col-md-5 mt-1"><b>$ {{ticket['price_for_adults']}}</b></div>
+                      <div class="col-md-7 text-muted mt-1">Price For Children : </div>
+                     <div class="col-md-5 mt-1"><b>$ {{ticket['price_for_children']}}</b></div>
+                      <div class="col-md-7 text-muted mt-1">Price For Senior Citizen : </div>
+                     <div class="col-md-5 mt-1"><b>$ {{ticket['price_for_senior_citizen']}}</b></div>
+                      <div class="col-md-7 text-muted mt-1">Price For Handy Capped : </div>
+                     <div class="col-md-5 mt-1"><b>$ {{ticket['price_for_handy_capped']}}</b></div>
+                      {% if ticket['ticket_title'] == "Stall Ticket":%}
+                         <div class="col-md-6 mt-2">
+                            <a href="view_entry_bookings?ticket_id={{ticket['_id']}}&stall_id={{stall['_id']}}" class="btn btn-primary w-100" style="font-size:12.5px">View Stall Bookings</a>
+                         </div>
+                        <div class="col-md-6 mt-2">
+                            <a href="view_payments?ticket_id={{ticket['_id']}}&stall_id={{stall['_id']}}" class="btn btn-warning w-100" style="font-size:12.5px">View Stall Payments</a>
+                         </div>
+                     {% elif ticket['ticket_title'] == "Entry Ticket":%}
+                        <div class="col-md-6 mt-2">
+                            <a href="view_entry_bookings?ticket_id={{ticket['_id']}}" class="btn btn-primary w-100" style="font-size:12.5px">View Entry Bookings</a>
+                         </div>
+                         <div class="col-md-6 mt-2">
+                            <a href="view_payments?ticket_id={{ticket['_id']}}" class="btn btn-warning w-100" style="font-size:12.5px">View Entry Payment</a>
+                         </div>
+                     {% endif %}
+                 </div>
+             </div>
+         </div>
+        {% endfor %}
+    </div>
+</div>

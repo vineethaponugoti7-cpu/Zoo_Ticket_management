@@ -1,0 +1,102 @@
+{% if session['role'] == "Admin" :%}
+  {% include "admin_head.html" %}
+{% elif session['role'] == "Customer" :%}
+  {% include "customer_head.html" %}
+{% endif %}
+
+<div class="container">
+    <div class="row">
+        <div class="text-center h4 mt-5">View Individual Tickets</div>
+        {% for booking in bookings: %}
+         {% set ticket = get_ticket_id(booking['ticket_id'])%}
+            {% for booked_ticket in booking['adults'] %}
+               <div class="col-md-6 mt-3">
+                   <div class="card2 mt-3 p-3">
+                       {% if ticket['ticket_title'] == "Entry Ticket":%}
+                            <div class="text-center h4 mt-1"><b>{{ticket['ticket_title']}} For Adult</b></div>
+                       {% elif ticket['ticket_title'] == "Stall Ticket":%}
+                       {% set stall = get_stall_id(ticket['stall_id'])%}
+                            <div class="text-center h4 mt-1"><b>{{ticket['ticket_title']}} <span class="stall_name">[ {{stall['stall_name']}} ] For Adult</span></b></div>
+                       {% endif %}
+                       <div class="row">
+                           <div class="col-md-6 mt-2">
+                               <div class="text-muted">Name : &nbsp; &nbsp;<span><b>{{booked_ticket['name']}}</b></span></div>
+                               <div class="text-muted">Age : &nbsp; &nbsp;<span><b>{{booked_ticket['age']}} Years</b></span></div>
+                               <div class="text-muted">Date : &nbsp; &nbsp;<span><b>{{booking['booking_date'].date()}} {{booking['booking_date'].strftime("%I")}}:{{booking['booking_date'].strftime("%M")}} {{booking['booking_date'].strftime("%p")}}</b></span></div>
+                           </div>
+                           <div class="col-md-6 mt-2">
+                               <img src="https://img.freepik.com/free-vector/group-wild-animals_1308-43813.jpg" style="height:20vh">
+                           </div>
+                       </div>
+                   </div>
+               </div>
+            {% endfor %}
+        {% for booked_ticket in booking['children'] %}
+               <div class="col-md-6 mt-3">
+                   <div class="card2 mt-3 p-3">
+                       {% if ticket['ticket_title'] == "Entry Ticket":%}
+                            <div class="text-center h4 mt-1"><b>{{ticket['ticket_title']}} For Children</b></div>
+                       {% elif ticket['ticket_title'] == "Stall Ticket":%}
+                       {% set stall = get_stall_id(ticket['stall_id'])%}
+                            <div class="text-center h4 mt-1"><b>{{ticket['ticket_title']}} <span class="stall_name">[ {{stall['stall_name']}} ] For Children</span></b></div>
+                       {% endif %}
+                       <div class="row">
+                           <div class="col-md-6 mt-2">
+                               <div class="text-muted">Name : &nbsp; &nbsp;<span><b>{{booked_ticket['name']}}</b></span></div>
+                               <div class="text-muted">Age : &nbsp; &nbsp;<span><b>{{booked_ticket['age']}} Years</b></span></div>
+                               <div class="text-muted">Date : &nbsp; &nbsp;<span><b>{{booking['booking_date'].date()}} {{booking['booking_date'].strftime("%I")}}:{{booking['booking_date'].strftime("%M")}} {{booking['booking_date'].strftime("%p")}}</b></span></div>
+                           </div>
+                           <div class="col-md-6 mt-2">
+                               <img src="https://w0.peakpx.com/wallpaper/564/534/HD-wallpaper-cute-love-birds-cute-birds-two.jpg" style="height:20vh;width:70%">
+                           </div>
+                       </div>
+                   </div>
+               </div>
+            {% endfor %}
+        {% for booked_ticket in booking['senior_citizen'] %}
+               <div class="col-md-6 mt-3">
+                   <div class="card2 mt-3 p-3">
+                       {% if ticket['ticket_title'] == "Entry Ticket":%}
+                            <div class="text-center h4 mt-1"><b>{{ticket['ticket_title']}} For Senior Citizen</b></div>
+                       {% elif ticket['ticket_title'] == "Stall Ticket":%}
+                       {% set stall = get_stall_id(ticket['stall_id'])%}
+                            <div class="text-center h4 mt-1"><b>{{ticket['ticket_title']}} <span class="stall_name">[ {{stall['stall_name']}} ] For Senior Citizen</span></b></div>
+                       {% endif %}
+                       <div class="row">
+                           <div class="col-md-6 mt-2">
+                               <div class="text-muted">Name : &nbsp; &nbsp;<span><b>{{booked_ticket['name']}}</b></span></div>
+                               <div class="text-muted">Age : &nbsp; &nbsp;<span><b>{{booked_ticket['age']}} Years</b></span></div>
+                               <div class="text-muted">Date : &nbsp; &nbsp;<span><b>{{booking['booking_date'].date()}} {{booking['booking_date'].strftime("%I")}}:{{booking['booking_date'].strftime("%M")}} {{booking['booking_date'].strftime("%p")}}</b></span></div>
+                           </div>
+                           <div class="col-md-6 mt-2">
+                               <img src="https://tourscanner.com/blog/wp-content/uploads/2020/05/Sch%C3%B6nbrunn-Zoo-Austria.jpg" style="height:20vh;width:70%">
+                           </div>
+                       </div>
+                   </div>
+               </div>
+            {% endfor %}
+        {% for booked_ticket in booking['handy_capped'] %}
+               <div class="col-md-6 mt-3">
+                   <div class="card2 mt-3 p-3">
+                       {% if ticket['ticket_title'] == "Entry Ticket":%}
+                            <div class="text-center h4 mt-1"><b>{{ticket['ticket_title']}} For Handy Capped</b></div>
+                       {% elif ticket['ticket_title'] == "Stall Ticket":%}
+                       {% set stall = get_stall_id(ticket['stall_id'])%}
+                            <div class="text-center h4 mt-1"><b>{{ticket['ticket_title']}} <span class="stall_name">[ {{stall['stall_name']}} ] For Handy Capped</span></b></div>
+                       {% endif %}
+                       <div class="row">
+                           <div class="col-md-6 mt-2">
+                               <div class="text-muted">Name : &nbsp; &nbsp;<span><b>{{booked_ticket['name']}}</b></span></div>
+                               <div class="text-muted">Age : &nbsp; &nbsp;<span><b>{{booked_ticket['age']}} Years</b></span></div>
+                               <div class="text-muted">Date : &nbsp; &nbsp;<span><b>{{booking['booking_date'].date()}} {{booking['booking_date'].strftime("%I")}}:{{booking['booking_date'].strftime("%M")}} {{booking['booking_date'].strftime("%p")}}</b></span></div>
+                           </div>
+                           <div class="col-md-6 mt-2">
+                               <img src="https://littleguidedetroit.com/wp-content/uploads/2022/03/zoo-1024x683.jpg" style="height:20vh;width:70%">
+                           </div>
+                       </div>
+                   </div>
+               </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+</div>

@@ -39,7 +39,7 @@ zoo-management/
 You need Python 3 and a running MongoDB instance.
 
 ```bash
-git clone https://github.com/vineethaponugoti7-cpu/zoo-management.git
+git clone https://github.com/YOUR_USERNAME/zoo-management.git
 cd zoo-management
 pip install -r requirements.txt
 ```

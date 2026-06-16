@@ -1,0 +1,24 @@
+{% include "customer_head.html"%}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-9"></div>
+        <div class="col-md-3 mt-5">
+            <div id="my-div" class="card  mt-3 p-4">
+                <div class="mt-1">
+                    <div class="text-muted mt-1">Name : <b>{{customer['name']}}</b></div>
+                    <div class="mt-1"></div>
+                </div>
+                 <div class="mt-1">
+                    <div class="text-muted mt-1">Email : <b>{{customer['email']}}</b></div>
+                     <div class="mt-1"></div>
+                </div>
+                 <div class="mt-1">
+                    <div class="text-muted mt-1">Phone Number : <b>{{customer['phone']}}</b></div>
+                     <div class="mt-1"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

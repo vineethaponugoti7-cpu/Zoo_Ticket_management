@@ -1,0 +1,42 @@
+{% if session['role'] == "Admin" :%}
+  {% include "admin_head.html" %}
+{% elif session['role'] == "Customer" :%}
+  {% include "customer_head.html" %}
+{% endif %}
+
+
+<div class="container">
+  <div class="row">
+    <div class="text-center h4" style="margin-top:70px">View Payments</div>
+    <table class="table text-center table-primary table-bordered mt-4">
+      <tr>
+        <thead>
+          <th>Customer Name</th>
+          <th>Card Number</th>
+          <th>Amount</th>
+          <th>Date</th>
+          <th>Payment Status</th>
+        </thead>
+      </tr>
+      <tbody>
+       {% for payment in payments:%}
+       {% set customer = get_customer_id(payment['customer_id'])%}
+       <tr>
+        <td>{{customer['name']}}</td>
+        <td>{{payment['card_number']}}</td>
+        <td>$ {{payment['total_amount']}}</td>
+        <td>{{payment['date'].date()}} {{payment['date'].strftime("%I")}}:{{payment['date'].strftime("%M")}} {{payment['date'].strftime("%p")}}</td>
+        {% if payment['status'] == "Transaction Successfully": %}
+            <td>{{payment['status']}}</td>
+        {% elif payment['status'] == "Amount Refunded to Customer": %}
+            <td>
+                <a href="view_refund_history?payment_id={{payment['_id']}}">{{payment['status']}}</a>
+            </td>
+        {% endif %}
+       </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>

@@ -1,0 +1,195 @@
+{% include "customer_head.html" %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card mt-5 p-3">
+                <div class="row">
+                     <div class="text-center h4 mt-2">View Booking</div>
+                    {% set ticket = get_ticket_id(booking['ticket_id'])%}
+                    {% set customer = get_customer_id(booking['customer_id'])%}
+                    <div class="col-md-3 mt-1">
+                        {% if ticket['ticket_title'] == "Entry Ticket":%}
+                             <div class="text-muted mt-1">Ticket Title</div>
+                             <div class="mt-1"><b>{{ticket['ticket_title']}}</b></div>
+                         {% elif ticket['ticket_title'] == "Stall Ticket":%}
+                              {% set stall = get_stall_id(ticket['stall_id'])%}
+                                 <div class="text-muted mt-1">Ticket Title</div>
+                                <div class="mt-1"><b>{{ticket['ticket_title']}} <span class="stall_name">[ {{stall['stall_name']}} ]</span></b></div>
+                         {% endif %}
+                    </div>
+                    <div class="col-md-3 mt-1">
+                        <div class="text-muted mt-1">Customer Name</div>
+                        <div class="mt-1"><b>{{customer['name']}}</b></div>
+                    </div>
+                     <div class="col-md-3 mt-1">
+                        <div class="text-muted mt-1">Booking Date</div>
+                        <div class="mt-1"><b>{{booking['booking_date'].date()}} {{booking['booking_date'].strftime("%I")}}:{{booking['booking_date'].strftime("%M")}} {{booking['booking_date'].strftime("%p")}}</b></div>
+                    </div>
+                     <div class="col-md-3 mt-1 mb-2">
+                        <div class="text-muted mt-1">Booking Status</div>
+                        <div class="mt-1"><b>{{booking['booking_status']}}</b></div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="text-muted col-md-6 mt-1 mb-2">Number Of Tickets : <b>{{booking['number_of_tickets']}} Tickets</b></div>
+                        <div class="text-muted col-md-6 mt-1 mb-2">Total Amount : &nbsp; &nbsp; <span class="amount"><b>{{booking['total_amount']}} $</b></span></div>
+                    </div>
+                    <hr>
+                     <div class="col-md-4 mt-1 mb-2">
+                        <div class="text-muted mt-1">Number Of Adult Tickets</div>
+                        <div class="text-center mt-1"><b>{{booking['no_of_adult_tickets']}}</b></div>
+                    </div>
+                    <div class="col-md-6 mt-1">
+                        <table class="text-center table table-white table-bordered mt-2" style="background-color:white">
+                             <tr>
+                                <thead>
+                                  <th>Adult Name</th>
+                                  <th>Adult Age</th>
+                                </thead>
+                              </tr>
+                              <tbody>
+                               {% for adult in booking['adults']:%}
+                               <tr>
+                                <td>{{adult['name']}}</td>
+                                <td>{{adult['age']}} Years</td>
+                               </tr>
+                              {% endfor %}
+                              </tbody>
+                        </table>
+                    </div>
+                     <hr>
+                     <div class="col-md-4 mt-1 mb-2">
+                        <div class="text-muted mt-1">Number Of Children Tickets</div>
+                        <div class="text-center mt-1"><b>{{booking['no_of_children_tickets']}}</b></div>
+                    </div>
+                    <div class="col-md-6 mt-1">
+                        <table class="text-center table table-white table-bordered mt-2" style="background-color:white">
+                             <tr>
+                                <thead>
+                                  <th>Children Name</th>
+                                  <th>Children Age</th>
+                                </thead>
+                              </tr>
+                              <tbody>
+                               {% for children in booking['children']:%}
+                               <tr>
+                                <td>{{children['name']}}</td>
+                                <td>{{children['age']}} Years</td>
+                               </tr>
+                              {% endfor %}
+                              </tbody>
+                        </table>
+                    </div>
+                     <hr>
+                     <div class="col-md-4 mt-1 mb-2">
+                        <div class="text-muted mt-1">Number Of Senior Citizen Tickets</div>
+                        <div class="text-center mt-1"><b>{{booking['no_of_senior_citizen_tickets']}}</b></div>
+                    </div>
+                    <div class="col-md-6 mt-1">
+                        <table class="text-center table table-white table-bordered mt-2" style="background-color:white">
+                             <tr>
+                                <thead>
+                                  <th>Citizen Name</th>
+                                  <th>Citizen Age</th>
+                                </thead>
+                              </tr>
+                              <tbody>
+                               {% for senior_citizen in booking['senior_citizen']:%}
+                               <tr>
+                                <td>{{senior_citizen['name']}}</td>
+                                <td>{{senior_citizen['age']}} Years</td>
+                               </tr>
+                              {% endfor %}
+                              </tbody>
+                        </table>
+                    </div>
+                     <hr>
+                     <div class="col-md-4 mt-1 mb-2">
+                        <div class="text-muted mt-1">Number Of Handy Capped Tickets</div>
+                        <div class="text-center mt-1"><b>{{booking['no_of_handy_capped_tickets']}}</b></div>
+                    </div>
+                    <div class="col-md-6 mt-1">
+                        <table class="text-center table table-white table-bordered mt-2" style="background-color:white">
+                             <tr>
+                                <thead>
+                                  <th>Handy Capped Name</th>
+                                  <th>Handy Capped Age</th>
+                                </thead>
+                              </tr>
+                              <tbody>
+                               {% for handy_capped in booking['handy_capped']:%}
+                               <tr>
+                                <td>{{handy_capped['name']}}</td>
+                                <td>{{handy_capped['age']}} Years</td>
+                               </tr>
+                              {% endfor %}
+                              </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+<script>
+function validate(){
+        var regex_care_name = /^[a-zA-Z ]*$/;
+        let holder_name = document.getElementById("holder_name").value
+        if(!regex_care_name.test(holder_name)){
+            alert("Invalid Name on Card")
+            return false
+        }
+
+        let card_number = document.getElementById("card_number").value
+        if(card_number.length!=16){
+            alert("Card Number Should be 16")
+            return false
+        }
+
+        let expiry_date = document.getElementById("expiry_date").value
+        if(expiry_date.length!=5){
+            alert("Invalid Expire Date")
+            return false
+        }
+
+        let cvv = document.getElementById("cvv").value
+        if(cvv.length!=3){
+            alert("Invalid CVV")
+            return false
+        }
+
+        return true
+    }
+</script>
+        <div class="col-md-4">
+             <div class="card1 mt-5 p-2">
+                  <div class="text-center h4" >Booking Amount</div>
+                  <form action="pay_amount1" method="post" onsubmit="return validate()">
+                      <input type="hidden" name="booking_id" value="{{booking['_id']}}">
+                      <input type="hidden" name="total_amount" value="{{booking['total_amount']}}">
+                      <div class="text-center"><b>Total Amount: {{booking['total_amount']}} $</b></div>
+                      <div class="mt-2">
+                            <label class="form-label">Card Number</label>
+                            <input type="number" name="card_number" required placeholder="Enter Number" id="card_number" class="form-control">
+                      </div>
+                       <div class="mt-2">
+                            <label class="form-label">Holder Name</label>
+                            <input type="text" name="holder_name" required placeholder="Enter Name" id="holder_name" class="form-control">
+                      </div>
+                       <div class="mt-2">
+                            <label class="form-label">CVV</label>
+                            <input type="number" min="0" name="cvv" required placeholder="Enter Number" id="cvv" class="form-control">
+                      </div>
+                       <div class="mt-2">
+                            <label class="form-label">Expiry Date</label>
+                            <input type="text" name="expiry_date" required placeholder="Enter Date" id="expiry_date" class="form-control">
+                      </div>
+                       <div class="mt-4">
+                           <input type="submit" value="Pay Amount" class="btn btn-success w-100">
+                       </div>
+                  </form>
+             </div>
+         </div>
+    </div>
+</div>

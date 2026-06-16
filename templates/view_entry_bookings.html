@@ -1,0 +1,63 @@
+{% if session['role'] == "Admin" :%}
+  {% include "admin_head.html" %}
+{% elif session['role'] == "Customer" :%}
+  {% include "customer_head.html" %}
+{% endif %}
+
+<div class="container">
+    <div class="row">
+        <div class="text-center h4 mt-2">View Booking</div>
+        {% for booking in bookings: %}
+        <div class="col-md-6">
+            <div class="card mt-3 p-3">
+                {% set ticket = get_ticket_id(booking['ticket_id'])%}
+                {% set customer = get_customer_id(booking['customer_id'])%}
+                <div class="row">
+                    <div class="col-md-6 mt-1">
+                         {% if ticket['ticket_title'] == "Entry Ticket":%}
+                             <div class="text-muted mt-1">Ticket Title</div>
+                             <div class="mt-1"><b>{{ticket['ticket_title']}}</b></div>
+                         {% elif ticket['ticket_title'] == "Stall Ticket":%}
+                              {% set stall = get_stall_id(ticket['stall_id'])%}
+                                 <div class="text-muted mt-1">Ticket Title</div>
+                                <div class="mt-1"><b>{{ticket['ticket_title']}} <span class="stall_name">[ {{stall['stall_name']}} ]</span></b></div>
+                         {% endif %}
+                    </div>
+                    <div class="col-md-6 mt-1">
+                        <div class="text-muted mt-1">Customer Name</div>
+                        <div class="mt-1"><b>{{customer['name']}}</b></div>
+                    </div>
+                    <div class="col-md-6 mt-1">
+                        <div class="text-muted mt-1">Number Of Tickets : </div>
+                        <div class="mt-1"><b>{{booking['number_of_tickets']}} Tickets</b></div>
+                    </div>
+                    <div class="col-md-6 mt-1">
+                        <div class="text-muted  mt-1">Total Amount</div>
+                        <div class="amount"><b>{{booking['total_amount']}} $</b></div>
+                    </div>
+                     <div class="col-md-6 mt-1">
+                        <div class="text-muted mt-1">Booking Date</div>
+                        <div class="mt-1"><b>{{booking['booking_date'].date()}} {{booking['booking_date'].strftime("%I")}}:{{booking['booking_date'].strftime("%M")}} {{booking['booking_date'].strftime("%p")}}</b></div>
+                    </div>
+                     <div class="col-md-6 mt-1 mb-2">
+                        <div class="text-muted mt-1">Booking Status</div>
+                        <div class="mt-1"><b>{{booking['booking_status']}}</b></div>
+                    </div>
+                    {% if session['role'] == "Customer" and booking['booking_status'] == "Customer Booked Ticket" and booking['booking_date'] >= today :%}
+                        <div class="col-md-6">
+                             <div class="col-md-6 mt-1">
+                                <a href="cancel_booking?booking_id={{booking['_id']}}&ticket_id={{ticket['_id']}}" class="btn btn-danger w-100">Cancel Booking</a>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if booking['booking_status'] == "Customer Booked Ticket":%}
+                        <div class="col-md-6 mt-1">
+                            <a href="view_booked_tickets?booking_id={{booking['_id']}}&ticket_id={{ticket['_id']}}" class="btn btn-info w-100">View Tickets</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>

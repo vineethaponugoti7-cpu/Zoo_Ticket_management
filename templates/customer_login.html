@@ -1,0 +1,33 @@
+{%include "head.html"%}
+
+    <div class="container-fluid login">
+        <div class="row">
+          <div class="col-md-4"></div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4 mt-5">
+                <div class="card mt-3 p-4 display:block">
+                    <div class="text-center h4">Customer Login</div>
+                        <form action="customer_login1" method="post">
+                              <div class="mt-1">
+                                <label for ="email">Email</label>
+                                <input type="email" name="email" id="email" placeholder="Enter Email" class="form-control">
+                              </div>
+                              <div class="mt-1">
+                                <label for ="password">Password</label>
+                                <input type="password" name="password" id="password"  placeholder="Enter Password" class="form-control">
+                              </div>
+                            <div class="row">
+                                <div class="col-md-6 mt-2">
+                                    <input type="submit" id="submit" value="Login" class="btn btn-primary w-100">
+                              </div>
+                              <div class="col-md-6 mt-2">
+                                    <a href="customer_register" class="btn btn-success w-100">Register</a>
+                              </div>
+
+                            </div>
+                        </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

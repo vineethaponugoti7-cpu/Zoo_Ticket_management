@@ -1,0 +1,54 @@
+{% include "admin_head.html" %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function(){
+        get_activities()
+    })
+
+    function get_activities(){
+        $.get("http://127.0.0.1:5000/get_activities",function(data,status){
+            $("#activities").html(data)
+            console.log(data)
+        })
+    }
+
+
+    function add_activity1(e){
+        e.preventDefault()
+
+        activity_name = $("#activity_name").val();
+        console.log(activity_name)
+
+        let activity ={
+            "activity_name": activity_name
+        }
+        $.post("http://127.0.0.1:5000/add_activity1", activity, function(data,status){
+           $("#message").html(data['message'])
+            $("#activity_name").val("");
+            get_activities()
+        })
+    }
+</script>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 mt-3">
+            <div class="card p-3 mt-3">
+                <form  method="post" onsubmit="add_activity1(event)">
+                    <div class="h3 text-center">Add Activities</div>
+                    <div class="mt-3">
+                        <label>Activity Name</label>
+                        <input type="text" name="activity_name" id ="activity_name"  class="form-control" placeholder="Enter Name" required >
+                    </div>
+                    <div class="mt-3">
+                        <input type="submit" value="Add Activity" class="form-control btn btn-primary w-100">
+                    </div>
+                    <div id="message"></div>
+                </form>
+            </div>
+        </div>
+         <div class="col-md-8">
+             <div id="activities"></div>
+         </div>
+    </div>
+</div>

@@ -1,0 +1,99 @@
+{% if session['role'] == "Admin" :%}
+  {% include "admin_head.html" %}
+{% elif session['role'] == "Customer" :%}
+  {% include "customer_head.html" %}
+{% endif %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function(){
+       $("#my_form").hide();
+       $("#add_stall_btn").on("click",()=>{
+            if($("#my_form").is(":visible")) {
+                $("#my_form").hide()
+            }else{
+                $("#my_form").show()
+                $("#add_stall_btn").hide()
+            }
+       })
+       $("#my_form").is(":visible");
+    })
+</script>
+<div class="container">
+    <div class="row">
+        {% if session['role'] == "Admin" :%}
+            <div class="col-md-9"></div>
+            <div class="col-md-3 mt-2">
+                <input type="button" value="Add Stall" class="btn btn-success w-100" id="add_stall_btn">
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4 mt-5">
+                <div class="card mt-3 p-3" id="my_form">
+                    <form action="add_stall1" method="post" enctype="multipart/form-data">
+                        <div class="mt-1">
+                            <label for="stall_name" class="form-label">Stall Name</label>
+                            <input type="text" name="stall_name" id="stall_name" placeholder="Enter Stall Name" required class="form-control">
+                        </div>
+                        <div class="mt-1">
+                            <label for="date" class="form-label">Date</label>
+                            <input type="date" name="date" id="date" placeholder="Enter Date" required class="form-control">
+                        </div>
+
+                         <div class="mt-1">
+                            <label for="picture" class="form-label">Stall Picture</label>
+                            <input type="file" name="picture" id="picture"  required class="form-control">
+                        </div>
+                         <div class="mt-1">
+                            <label for="description" class="form-label">Description</label>
+                             <textarea name="description" id="description" placeholder="Enter Description" required class="form-control"></textarea>
+                        </div>
+                        <div class="mt-1">
+                            <label for="activity_id" class="form-label">Choose Activities</label>
+                            <select name="activity_ids" id="activity_id" required multiple class="form-control">
+                                <option value="">Choose Multiple Activities</option>
+                                {% for activity in activities %}
+                                <option value="{{activity['_id']}}">{{activity['activity_name']}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mt-2">
+                            <input type="submit" value="Add Stall" class="btn btn-primary w-100">
+                        </div>
+                        <div class="mt-2" style="color:green">
+                             {% if message != None :%}
+                                {{message}}
+                             {% endif %}
+                          </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-4"></div>
+        {% endif %}
+
+        {% for stall in stalls: %}
+        <div class="col-md-3 mt-5">
+            <div class="card mt-3 p-3">
+                <div class="text-center mt-1"><b>{{stall['stall_name']}}</b></div>
+                <div class="">
+                    <img src="/static/pictures/{{stall['picture']}}" style="max-height:150px; width:100%">
+                </div>
+                <div class="mt-1">
+                    <div class="text-muted">Description : </div>
+                    <div class="mt-1">{{stall['description']}}</div>
+                </div>
+                <div class="mt-1">
+                    <div class="text-muted">Date : </div>
+                    <div class="mt-1">{{stall['date']}}</div>
+                </div>
+                <div class="card mt-2 p-3">
+                    {% for activity_id in stall['activity_ids'] %}
+                    {% set activity = get_activity_ids(activity_id) %}
+                        <div class="">{{activity['activity_name']}}</div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
